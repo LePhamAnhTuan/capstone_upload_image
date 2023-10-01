@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model comment {
+  user_id  Int?
+  img_id   Int?
+  cmt_id   Int     @id @default(autoincrement())
+  date_cmt String? @db.VarChar(255)
+  content  String? @db.VarChar(255)
+  user     user?   @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "comment_ibfk_1")
+  img      img?    @relation(fields: [img_id], references: [img_id], onDelete: NoAction, onUpdate: NoAction, map: "comment_ibfk_2")
+
+  @@index([img_id], map: "img_id")
+  @@index([user_id], map: "user_id")
+}
+
+model img {
+  img_id      Int        @id @default(autoincrement())
+  img_name    String?    @db.VarChar(255)
+  url         String?    @db.VarChar(255)
+  description String?    @db.VarChar(255)
+  user_id     Int?
+  comment     comment[]
+  user        user?      @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "img_ibfk_1")
+  save_img    save_img[]
+
+  @@index([user_id], map: "user_id")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model save_img {
+  user_id     Int?
+  img_id      Int?
+  date_save   String? @db.VarChar(255)
+  save_img_id Int     @id @default(autoincrement())
+  user        user?   @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "save_img_ibfk_1")
+  img         img?    @relation(fields: [img_id], references: [img_id], onDelete: NoAction, onUpdate: NoAction, map: "save_img_ibfk_2")
+
+  @@index([img_id], map: "img_id")
+  @@index([user_id], map: "user_id")
+}
+
+model user {
+  user_id   Int        @id @default(autoincrement())
+  full_name String?    @db.VarChar(255)
+  email     String?    @db.VarChar(255)
+  pass_word String?    @db.VarChar(255)
+  tuoi      Int?
+  avatar    String?    @db.VarChar(255)
+  isRemove  Bytes?     @db.Blob
+  comment   comment[]
+  img       img[]
+  save_img  save_img[]
+  video     video[]
+}
+
+model video {
+  video_id    Int     @id @default(autoincrement())
+  video_name  String? @db.VarChar(255)
+  url         String? @db.VarChar(255)
+  description String? @db.VarChar(255)
+  user_id     Int?
+  user        user?   @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "video_ibfk_1")
+
+  @@index([user_id], map: "user_id")
+}
