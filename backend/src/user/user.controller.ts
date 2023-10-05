@@ -9,8 +9,8 @@ import { ExtractJwt } from 'passport-jwt';
 import { JwtStrategy } from 'src/strantegy/jwt.strantegy';
 @ApiTags("User")
 @Controller('user')
-@UseGuards(AuthGuard("jwt"))
-@ApiBearerAuth()
+// @UseGuards(AuthGuard("jwt"))
+// @ApiBearerAuth()
 export class UserController {
   constructor(private readonly userService: UserService) { }
 
@@ -31,9 +31,9 @@ export class UserController {
     return this.userService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Post(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+    return { id, updateUserDto };
   }
 
   @Patch('/delete/:id')

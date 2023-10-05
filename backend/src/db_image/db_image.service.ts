@@ -12,27 +12,25 @@ import { dataFileUploadDto } from './dto/upload.dto';
 export class DbImageService {
   model = new PrismaClient()
 
-  async uploadImage(files, id: number) {
-    files.map(async (file: Express.Multer.File) => {
-      const result = []
-      const upCloud: any = await uploadImage(`./public/img/${file.filename}`)
-      const { url, asset_id, width, height, format, created_at } = upCloud
-      const upload = await this.model.img.create({
-        data: {
-          user_id: id,
-          url: `${url}`,
-          img_name: file.filename,
-          description: `${asset_id} ${created_at} ${width} ${height} ${format} `
-        },
-      })
-      await unlink(process.cwd() + `/public/img/${file.filename}`);
-      result.push(upCloud)
-      return result
+  async uploadImage(file: any, id: number) {
+    const upCloud: any = await uploadImage(`./public/img/${file.filename}`)
+    const { url, asset_id, width, height, format, created_at } = upCloud
+    const upload = await this.model.img.create({
+      data: {
+        user_id: id,
+        url: `${url}`,
+        img_name: file.filename,
+        description: `${asset_id} ${created_at} ${width} ${height} ${format} `
+      },
     })
+    await unlink(process.cwd() + `/public/img/${file.filename}`);
+
+    return upload
+
 
   }
 
-  async uploadVideo(file: Express.Multer.File, id: number) {
+  async uploadVideo(file: any, id: number) {
     let { filename, originalname, path } = file
     const upCloud: any = await uploadVideo(`./public/video/${filename}`)
     const { url, asset_id, width, height, format, created_at } = upCloud
@@ -55,19 +53,24 @@ export class DbImageService {
   }
 
   findAll() {
-    return this.model.img.findMany({
-      include: {
-        user: {
-          select: {
-            user_id: true
-          }
-        }
-      }
-    });
+    return this.model.img.findMany();
   }
 
   findOne(id: number) {
     return this.model.img.findMany({
+      where: {
+        user_id: +id,
+      }
+    });
+  }
+  findAllVideo() {
+    return this.model.video.findMany({
+
+    });
+  }
+
+  findOneVideo(id: number) {
+    return this.model.video.findMany({
       where: {
         user_id: +id,
       }

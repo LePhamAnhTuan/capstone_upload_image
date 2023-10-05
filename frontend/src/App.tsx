@@ -1,17 +1,13 @@
-import React, { useEffect } from 'react';
-import './App.css';
 import {
   createBrowserRouter,
   RouterProvider
 } from "react-router-dom";
-import Root, { loader as rootLoader } from './pages/root';
-import ErrorPage from './pages/error-page';
-import Contact from './pages/contact';
+import './App.css';
 import EditContact from './pages/edit';
+import ErrorPage from './pages/error-page';
 import Login from './pages/login';
-import Addnew from './pages/addnew';
-import Upload from './Components/Upload';
-
+import Root, { loader as rootLoader } from './pages/root';
+import Addon from "./pages/addon";
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -24,8 +20,8 @@ const router = createBrowserRouter([
     loader: rootLoader,
     children: [
       {
-        path: "addnew",
-        element: <Addnew/>
+        path: "add-on",
+        element: <Addon/>
       },
       {
         path: "manger",
@@ -40,9 +36,6 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-
-
-
   return (
     <RouterProvider router={router} />
 

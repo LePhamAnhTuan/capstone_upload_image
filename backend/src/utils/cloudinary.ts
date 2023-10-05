@@ -24,9 +24,9 @@ export async function uploadImage(imageUploaded: any) {
 }
 export async function uploadVideo(videoUploaded) {
     const result = await new Promise((resolve, reject) => {
-        cloudinary.uploader.upload(
+        cloudinary.uploader.upload_large(
             videoUploaded,
-            {resource_type: "video", quality: 50, folder: "db_video" },
+            { resource_type: "video", quality: 50, folder: "db_video" },
             (err, res) => {
                 if (err) {
                     return reject(err);
