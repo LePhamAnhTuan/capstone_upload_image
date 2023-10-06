@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form } from 'react-router-dom';
 import { https } from '../api/configAxios';
-import { upload } from '../api/upload';
 import { useConfirmModal } from '../common/modalCofirm/modalConfirm';
 import { useOpenSnack } from '../common/snackBar/openSnack';
 type Props = {}
@@ -35,7 +34,7 @@ function Addon({ }: Props) {
         <div>
             <Form onSubmit={handleSubmit}>
                 <p>Upload image</p>
-                <input type='file' multiple accept='*' onChange={async (e: any) => {
+                <input type='file' multiple accept='image/*' onChange={async (e: any) => {
                     const files = e.target.files
                     for (const file of files) {
                         console.log(file)

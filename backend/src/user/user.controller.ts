@@ -8,14 +8,14 @@ import { request } from 'http';
 import { ExtractJwt } from 'passport-jwt';
 import { JwtStrategy } from 'src/strantegy/jwt.strantegy';
 @ApiTags("User")
-@Controller('user')
+@Controller('')
 // @UseGuards(AuthGuard("jwt"))
 // @ApiBearerAuth()
 export class UserController {
   constructor(private readonly userService: UserService) { }
 
 
-  @Post()
+  @Post("/add-new-user")
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }

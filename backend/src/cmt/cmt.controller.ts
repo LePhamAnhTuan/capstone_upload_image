@@ -2,7 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { CmtService } from './cmt.service';
 import { CreateCmtDto } from './dto/create-cmt.dto';
 import { UpdateCmtDto } from './dto/update-cmt.dto';
-
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags("Comments")
 @Controller('cmt')
 export class CmtController {
   constructor(private readonly cmtService: CmtService) { }

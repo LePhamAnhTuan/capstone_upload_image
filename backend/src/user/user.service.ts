@@ -11,7 +11,9 @@ import { errorCode, successCode } from 'src/utils/customRes';
 export class UserService {
   model = new PrismaClient()
   create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+    return this.model.user.create({
+      data: createUserDto
+    });
   }
 
   async findAll() {
