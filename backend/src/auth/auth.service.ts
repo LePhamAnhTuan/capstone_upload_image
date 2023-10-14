@@ -21,7 +21,7 @@ export class AuthService {
 
         let checkEmail = await this.model.user.findFirst({
             where: {
-                email
+                email: email.toLowerCase()
             }
         })
         if (!checkEmail) {
@@ -55,7 +55,7 @@ export class AuthService {
         // kiểm tra email trùng
         let checkEmail = await this.model.user.findFirst({
             where: {
-                email
+                email: email.toLowerCase()
             }
         })
         // trùng => báo email trùng
@@ -67,7 +67,7 @@ export class AuthService {
         let pass_word = hashPassword(password).toString()
         let createUSer = await this.model.user.create({
 
-            data: { user_id, email, pass_word: pass_word, full_name, tuoi: age, avatar }
+            data: { user_id, email: email.toLowerCase(), pass_word: pass_word, full_name, tuoi: age, avatar }
         })
         return {
             status: "Thành công",

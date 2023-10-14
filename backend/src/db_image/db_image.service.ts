@@ -6,6 +6,7 @@ import { uploadImage, uploadVideo } from 'src/utils/cloudinary';
 import { CreateDbImageDto } from './dto/create-db_image.dto';
 import { UpdateDbImageDto } from './dto/update-db_image.dto';
 import { dataFileUploadDto } from './dto/upload.dto';
+import { errorCode, successCode } from 'src/utils/customRes';
 
 
 @Injectable()
@@ -13,6 +14,9 @@ export class DbImageService {
   model = new PrismaClient()
 
   async uploadImage(file: any, id: number) {
+    if (!file) {
+      return "error";
+    }
     const upCloud: any = await uploadImage(`./public/img/${file.filename}`)
     const { url, asset_id, width, height, format, created_at } = upCloud
     const upload = await this.model.img.create({
@@ -52,8 +56,27 @@ export class DbImageService {
     return 'This action adds a new dbImage';
   }
 
-  findAll() {
-    return this.model.img.findMany();
+
+
+  async findAll() {
+    try {
+      const data = await this.model.img.findMany({
+        select: {
+          user_id: true,
+          comment: true,
+          img_id: true,
+          img_name: true,
+          description: true,
+          url: true,
+
+        }
+      })
+      return successCode(data)
+    } catch (error) {
+      return errorCode(error)
+    }
+
+
   }
 
   findOne(id: number) {

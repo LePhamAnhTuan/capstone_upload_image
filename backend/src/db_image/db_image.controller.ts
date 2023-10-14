@@ -14,12 +14,12 @@ export class DbImageController {
   @ApiBody({ type: FileUploadDto })
   @Post("/upload-image/:id")
   @UseInterceptors(
-    FileInterceptor("File", // key của FE gửi lên
+    FileInterceptor("file", // key của FE gửi lên
       {
         // định nghĩa nơi lưu và đặt tên mới
         storage: diskStorage({
           destination: process.cwd() + "/public/img",
-          filename: (req, file, callback) => callback(null, new Date().getTime() + "_" + file.originalname)
+          filename: (req, file, callback) => callback(null, `${new Date().getTime()}-${file.originalname} `)
         })
 
       }
@@ -51,16 +51,17 @@ export class DbImageController {
   }
 
 
-  @Get("arr-upload-image")
+  @Get("/arr-upload-image")
   findAll() {
-    return this.dbImageService.findAll();
+    return "123"
+    // return this.dbImageService.findAll();
   }
 
   @Get('arr-upload-image/:id')
   findOne(@Param('id') id: string) {
     return this.dbImageService.findOne(Number(id));
   }
-  
+
   @Get("arr-upload-video")
   findAllVideo() {
     return this.dbImageService.findAllVideo();

@@ -22,7 +22,7 @@ export class UserController {
 
 
   @Get("/all-users")
-  findAll(@Req() request) {
+  findAll() {
     return request && this.userService.findAll();
   }
 

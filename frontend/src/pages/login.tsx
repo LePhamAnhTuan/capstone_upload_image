@@ -1,14 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import { https } from '../api/configAxios';
-import { saveLocal } from '../utils/localStorage';
-import { useOpenSnack } from '../common/snackBar/openSnack';
+import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { Typography } from '@material-ui/core';
+import * as yup from 'yup';
+import { https } from '../api/configAxios';
+import { useOpenSnack } from '../common/snackBar/openSnack';
+import { saveLocal } from '../utils/localStorage';
 
 const validationSchema = yup.object({
   email: yup
@@ -33,10 +30,8 @@ const Login = () => {
      
     
     onSubmit:async (values: any) => {
-      console.log('values: ', values);
       try {
         const res= await https.post("/login", values)
-        console.log('res: ', res.data);
         saveLocal("user", res.data)
         openSnack("success", "Đăng nhập thành công")
         navigate('/')

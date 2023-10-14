@@ -32,6 +32,7 @@ import {
 } from "react-router-dom";
 import loading from "./loading";
 import CustomSnackBar from '../common/snackBar/customSnackBar';
+import { checkUser } from '../utils/localStorage';
 
 export async function loader() {
     const contacts = await loading("contact");
@@ -42,10 +43,7 @@ export default function Root() {
     const { contacts }: any = useLoaderData();
     const navigate = useNavigate()
     useEffect(() => {
-        if (!localStorage.getItem("user")) {
-
-            navigate("/login")
-        }
+      checkUser()
 
     }, [])
 

@@ -5,10 +5,13 @@ import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class CmtService {
-  create(createCmtDto: CreateCmtDto) {
-    return 'This action adds a new cmt';
-  }
   model = new PrismaClient()
+
+  create(createCmtDto: CreateCmtDto) {
+    return this.model.comment.create({
+      data: createCmtDto
+    });
+  }
 
   findAll(id) {
 
@@ -33,7 +36,12 @@ export class CmtService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} cmt`;
+    return this.model.comment.findFirst({
+      where: {
+        user_id: +id
+      }
+
+    });
   }
 
   update(id: number, updateCmtDto: UpdateCmtDto) {
